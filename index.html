@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/wutzClient.css" />
+    <link rel="stylesheet" href="themes/Wutz.min.css" />
+    <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css">
+    <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css" />
+    <title>Wutz</title>
+</head>
+
+<body>
+    <!-- div class="app" -->
+        <div data-role="page" id="findBar" data-theme="a">
+            <div data-role="header">
+                <h1>Wutz</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <form>
+                    <input id="filter-bars" data-type="text" placeholder="Type Bar Id" /> 
+                </form>
+                <p>
+                    <a onclick="look4Bar()"        class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye">Search Bar</a>
+                    <a onclick="getLocationsMap()" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-location"> GPS </a>
+                </p>
+                <ul data-role="listview" data-inset="true" data-filter="false">
+                </ul>
+            </div><!-- /content -->
+        </div><!-- /page one -->
+        
+       <div data-role="page" id="conect2Bar" data-theme="a">
+            <div data-role="header">
+                <h1>Bar <span id="bar2Connect"></span></h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <p>
+                    Para poder conectarse a un catalogo y agregar canciones a la lista
+                    se necesita una llave, la cual es un numero que el locatario puede 
+                    entregar con el fin de dar acceso a un cliente a agregar temas a la cola.
+                </p>
+                <form>
+                    <input id="token-input" placeholder="Ingresar LLave del Dia">
+                </form>
+                <p>
+                    <a href="#" onclick="connect2Catalog();"  class="ui-btn ui-shadow ui-corner-all ui-btn-b">Conectar</a>
+                    <a href="#barDetails" data-role="button" style="background: red"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Volver</a>
+                </p>
+            </div><!-- /content -->
+
+        </div><!-- /page one -->
+        
+        
+        <!-- Start of first page: #one -->
+        <div data-role="page" id="artists" data-theme="a">
+            <div data-role="header">
+                <h1>Artist</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <p><a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Pick Another Bar</a></p>
+                <form>
+                    <input id="filter-for-artist" data-type="search" placeholder="Type to search...">
+                </form>
+                <ul id="artistList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-artist">
+
+                </ul>
+                <p><a href="#findBar" data-role="button" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Pick Another Bar</a></p>
+            </div><!-- /content -->
+
+        </div><!-- /page one -->
+
+        <!-- Start of second page: #two -->
+        <div data-role="page" id="albums" data-theme="a">
+
+            <div data-role="header">
+                <h1 id="albumTitle">Album </h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <p>
+                    <a href="#artists" 
+                       data-role="button" 
+                       data-direction="reverse" 
+                       class="ui-btn ui-shadow ui-corner-all ui-btn-b">
+                        All Artists
+                    </a>
+                </p>
+                <form>
+                    <input id="filter-for-albums" data-type="search" placeholder="Type to search...">
+                </form>
+                <ul id="albumList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-albums">
+
+                </ul>
+
+                <p><a href="#artists" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to Artists</a></p>
+
+            </div><!-- /content -->
+
+        </div><!-- /page two -->
+
+
+        <!-- Start of second page: #songs -->
+        <div data-role="page" id="songs" data-theme="a">
+
+            <div data-role="header">
+                <h1>Songs</h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <p><a href="#albums" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to Albums</a></p>            
+                <form>
+                    <input id="filter-for-songs" data-type="search" placeholder="Type to search...">
+                </form>
+                <ul id="songList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-songs">
+
+                </ul>
+
+                <p><a href="#albums" data-role="button" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to Albums</a></p>
+
+            </div><!-- /content -->
+
+        </div><!-- /page three -->
+
+
+        <!-- Map: #locationMapPage -->
+        <div data-role="page" id="locationMapPage" data-theme="a">
+
+            <div data-role="header">
+                <h1>Wutz Map</h1>
+            </div><!-- /header -->
+            <div role="main" class="ui-content">
+                <!-- div id="val"></div -->
+                <div id="mapholder" style="height:100%"></div>
+                <p><a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back</a></p>
+            </div><!-- /content -->
+
+        </div><!-- /page three -->
+
+
+        <!-- Start of third page: #popup -->
+        <div data-role="page" id="popup">
+
+            <div data-role="header" data-theme="b">
+                <h1>Dialog</h1>
+            </div><!-- /header -->
+
+            <div id="dialogBox" role="main" class="ui-content">
+                <h2>Popup</h2>
+                <p class="dialogMsg"></p>
+                <p><a  data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Back to Album</a></p>
+            </div><!-- /content -->
+
+        </div><!-- /page popup -->
+
+        <div data-role="page" id="barDetails">
+            <div data-role="header" data-theme="c">
+                <h1>-</h1>
+            </div><!-- /header -->
+            <div id="barOptions" role="main" class="ui-content">
+                <h2>_BAR ID_</h2>
+                <div id="barMapImg">
+                    
+                </div>
+                <p class="bar_details"></p>
+                <p>
+                    <a href="#artists" class="viewCatA ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action">Ver Catalogo</a>
+                    <a href="#conect2Bar" class="connectA ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action">Conectar a Bar</a>
+                    <a href="#findBar" data-transition="pop" data-role="button" style="background: red" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Volver</a>
+                </p>
+            </div><!-- /content -->
+
+        </div>
+    <!-- /div -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="./jquery.mobile.custom.min.js"></script>
+    <script src="js/textSlider.js"></script>
+    <script  src="js/wutzClient.js"></script>
+    <script  src="js/wutzLocator.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+
+</html>
