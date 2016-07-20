@@ -32,7 +32,7 @@ document.addEventListener("deviceready", function(){
     var kuki = window.localStorage;
    guid = kuki.getItem("guid");
    
-   catsLoaded = kuki.getItem("currCatKey")!== null?kuki.getItem("currCatKey"):new Array();
+   catsLoaded = kuki.getItem("currCatKey")!== null?JSON.parse(kuki.getItem("currCatKey")):{};
    
    if(guid === null || guid === undefined || guid === ""){
         console.log("name : "+device.name);
@@ -504,7 +504,7 @@ function connect2Catalog(){
                     closeLoading();
 			if(result.tokenOK){
                             catsLoaded[catInfo.idcatalog] = token;
-                            window.localStorage.setItem("currCatKey",catsLoaded);
+                            window.localStorage.setItem("currCatKey",JSON.stringify(catsLoaded));
                             loadArtistList();
                             $.mobile.changePage(goBackPage);
                         }
