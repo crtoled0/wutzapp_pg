@@ -15,24 +15,34 @@ function wutzLocatorInit(){
       //  config = _config;
         var gmapsUrl="";
         if( /Android/i.test(navigator.userAgent) ) {
-           gmapsUrl = "https://maps.google.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry,places&ext=.js&key="+config.androidGAPIKey;
+           gmapsUrl = "https://maps.google.com/maps/api/js?v=3.exp&libraries=geometry,places&ext=.js&key="+config.androidGAPIKey;
            conf_locs.key = config.androidGAPIKey;
         }
         else if(/webOS|iPhone|iPad|iPod/i.test(navigator.userAgent)){
-            gmapsUrl = "https://maps.google.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry,places&ext=.js&key="+config.iosGAPIKey;
+            gmapsUrl = "https://maps.google.com/maps/api/js?v=3.exp&libraries=geometry,places&ext=.js&key="+config.iosGAPIKey;
             conf_locs.key = config.iosGAPIKey;
         }
         else{
-           gmapsUrl = "https://maps.google.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry,places&ext=.js&key="+config.browserGAPIKey; 
+           gmapsUrl = "https://maps.google.com/maps/api/js?v=3.exp&libraries=geometry,places&ext=.js&key="+config.browserGAPIKey; 
            conf_locs.key = config.browserGAPIKey;
         }
   //      gmapsUrl = "http://maps.google.com/maps/api/js?v=3.exp&sensor=false&key="+config.browserGAPIKey;  // TEMP TO FORCE LOAD BROWSER ONE
-        var geoLocObj =  "<script id=\"geoLocLib\" type=\"text/javascript\" src=\""+gmapsUrl+"\"></script>";
+      $("#geoLocLib").remove(); 
+      $("#markWLab").remove(); 
+      var geoLocObj =  "<script id=\"geoLocLib\" type=\"text/javascript\" src=\""+gmapsUrl+"\"></script>";
       //  $("#geoLocLib").attr("src",gmapsUrl);
       $("body").append(geoLocObj);
-      var labelmarker = "<script src=\"https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js\"></script>";
+      var labelmarker = "<script id=\"markWLab\" src=\"https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js\"></script>";
         
-        $("body").append(labelmarker);
+        var waiting4GM = window.setInterval(function(){
+            
+            if(google){
+                $("body").append(labelmarker);
+                window.clearInterval(waiting4GM);
+            }
+        },100);
+        
+        
         
         $('#mapholder').height($(window).height() - (100 + $('[data-role=header]').height() - $('[data-role=footer]').height()));
   //  });
@@ -109,14 +119,15 @@ function drawBarMarkers(barArr, map){
    
     for(var i=0;i<barArr.length;i++){
         
+        /**
         markerBars[i]= new google.maps.Marker({
                                     position: new google.maps.LatLng(barArr[i].lat, barArr[i].lon),
                                     map: map,
                                     title: barArr[i].id,
                                     icon: imageIcon
                                 });
-                                
-     /**                           
+          **/                      
+                               
      markerBars[i]= new MarkerWithLabel({
                                     position: new google.maps.LatLng(barArr[i].lat, barArr[i].lon),
                                     map: map,
@@ -127,7 +138,7 @@ function drawBarMarkers(barArr, map){
                                     labelInBackground: false,
                                     icon: imageIcon
                                   });
-       **/
+       
         
         markerBars[i].addListener('click', function(){
             loadBarDetails(this.title);

@@ -20,7 +20,7 @@ function generateUUID(){
 var guid;
 var config;
 var localNetHost;
-var catsLoaded = new Array();
+var catsLoaded;
 
 
 document.addEventListener("deviceready", function(){
@@ -31,6 +31,8 @@ document.addEventListener("deviceready", function(){
     });
     var kuki = window.localStorage;
    guid = kuki.getItem("guid");
+   
+   catsLoaded = kuki.getItem("currCatKey")!== null?kuki.getItem("currCatKey"):new Array();
    
    if(guid === null || guid === undefined || guid === ""){
         console.log("name : "+device.name);
@@ -50,9 +52,26 @@ document.addEventListener("deviceready", function(){
    }
    else{
        console.log("Read GUID from Cookie");
-   }    
-}, true);
+   }
+   app.receivedEvent('deviceready');
+   setUpDefaultEvents();
+}, false);
 
+
+function setUpDefaultEvents(){
+    
+    $("#filter-bars").keypress(function(e) {
+        if(e.which == 13) {
+            look4Bar();
+        }
+    });
+
+    $("#token-input").keypress(function(e) {
+        if(e.which == 13) {
+            connect2Catalog();
+        }
+    });
+}
 
 //function onDeviceReady() {
    // console.log("Ejecutando Device Ready");
@@ -485,6 +504,7 @@ function connect2Catalog(){
                     closeLoading();
 			if(result.tokenOK){
                             catsLoaded[catInfo.idcatalog] = token;
+                            window.localStorage.setItem("currCatKey",catsLoaded);
                             loadArtistList();
                             $.mobile.changePage(goBackPage);
                         }
