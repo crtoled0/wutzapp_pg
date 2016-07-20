@@ -62,12 +62,14 @@ function setUpDefaultEvents(){
     
     $("#filter-bars").keypress(function(e) {
         if(e.which == 13) {
+            e.preventDefault();
             look4Bar();
         }
     });
 
     $("#token-input").keypress(function(e) {
         if(e.which == 13) {
+            e.preventDefault();
             connect2Catalog();
         }
     });
