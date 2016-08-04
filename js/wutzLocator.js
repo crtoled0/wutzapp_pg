@@ -87,20 +87,20 @@ function showPosition(position) {
     };    
     
     var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
+   /**
     var marker = new google.maps.Marker({
         position: latlon,
         map: map,
         title: "You are here!",
         label: "You"
     });
+    **/
     
     $.ajax({
                     type: 'GET',
                     dataType: 'json',
-                    url: config.adminHost+"/delegate/wutzDelegMan.php",
-                    data: "fnc=getNearByBars"
-                        +"&lat="+lat
-                        +"&lon="+lon,
+                    url: config.adminHost+"/getNearByBars/"+lat+"/"+lon,
+                    data: "",
                     success: function (result) {
                         drawBarMarkers(result, map);
                     },

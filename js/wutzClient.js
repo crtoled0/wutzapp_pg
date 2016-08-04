@@ -100,11 +100,10 @@ function look4Bar(){
     var barId = $("#filter-bars").val();
     openLoading();
         $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     dataType: 'json',
-                    url: config.adminHost+"/delegate/wutzDelegMan.php",
-                    data: "fnc=getBar&"
-                          +"barId="+barId,
+                    url: config.adminHost+"/searchBar/"+barId,
+                    data: "",
                     success: function (result) {
                         closeLoading();
                         $("#findBar ul").html("");
@@ -170,9 +169,8 @@ function loadBarDetails(barId){
     $.ajax({
 		type: 'GET',
 		dataType: 'json',
-		url: config.adminHost+"/delegate/wutzDelegMan.php",
-		data: "fnc=getBarDetails"
-                    +"&barId="+barId,
+		url: config.adminHost+"/getBar/"+barId,
+		data: "",
 		success: function (result) {
                         closeLoading();
                         loadBarDetailsReturn(result);
@@ -247,9 +245,8 @@ function loadArtistList()
      $.ajax({
 		type: 'GET',
 		dataType: 'json',
-		url: config.adminHost+"/delegate/wutzDelegMan.php",
-		data: "fnc=getArtistList"
-                    +"&catId="+catId,
+		url: config.adminHost+"/getArtistList/"+catId,
+		data: "",
 		success: function (result) {
 			loadArtistListReturn(result);
 		},
@@ -297,10 +294,8 @@ function loadAlbumPerArtist(artistId, artName)
          $.ajax({
 		type: 'GET',
 		dataType: 'json',
-		url: config.adminHost+"/delegate/wutzDelegMan.php",
-		data: "fnc=getAlbumPerArtist"
-                     +"&artId="+artistId
-                     +"&catId="+catId,
+		url: config.adminHost+"/getAlbumPerArtist/"+catId+"/"+artistId,
+		data: "",
 		success: function (result) {
 			loadAlbumPerArtistReturn(artistId, result);
 		},
@@ -341,10 +336,8 @@ function loadSongsPerAlbum(albumId)
              $.ajax({
 		type: 'GET',
 		dataType: 'json',
-		url: config.adminHost+"/delegate/wutzDelegMan.php",
-		data: "fnc=getSongsPerAlbum"
-                     +"&albId="+albumId
-                     +"&catId="+catId,
+		url: config.adminHost+"/getSongsPerAlbum/"+catId+"/"+albumId,
+		data: "",
 		success: function (result) {
                     	loadSongsPerAlbumReturn(albumId, result);
 		},
@@ -391,7 +384,7 @@ function addSongToQueue(songId)
             $.ajax({
                         type: 'POST',
                         dataType: 'json',
-                        url: config.adminHost+"/delegate/wutzDelegMan.php?fnc=addSongToQueue",
+                        url: config.adminHost+"/addSongToQueue",
                         data: params,
                         success: function (result) {
                             closeLoading();
@@ -500,7 +493,7 @@ function connect2Catalog(){
     $.ajax({
 		type: 'POST',
 		dataType: 'json',
-		url: config.adminHost+"/delegate/wutzDelegMan.php?fnc=checkToken",
+		url: config.adminHost+"/checkToken",
 		data: params,
 		success: function (result) {
                     closeLoading();
