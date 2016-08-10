@@ -794,6 +794,14 @@ body {
     font-family: 'trebuchet MS', 'Lucida sans', Arial;
     font-size: 14px;
     color: #444;
+    background: url(../img/fractal-back.gif) no-repeat center fixed !important;
+    background-size: cover;
+
+}
+
+[data-role="page"] {
+   opacity: 0.95;
+  
 }
 
 #initLoadImg{
