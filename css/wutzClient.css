@@ -797,10 +797,19 @@ body {
 }
 
 #initLoadImg{
-    background-image: url("../img/fractal-load.gif");
-    background-color: #ffffff;
-    background-repeat: no-repeat;
+   
     width: 100%;
     height: 100%;
+    
+}
+
+#loadingPage{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; 
     overflow: hidden;
+    z-index: 1000000;
 }
