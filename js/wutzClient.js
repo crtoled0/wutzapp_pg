@@ -355,12 +355,14 @@ function loadSongsPerAlbumReturn(albumId, result){
       
      $.each(result,function(i, value)
      {
-         $("#songList").append("<li data-mini=\"true\"><a id=\""+value.songid+"\" >"+value.name+"</a></li>");
+         $("#songList").append("<li data-mini=\"true\"><a data-rel=\"dialog\" id=\""+value.songid+"\" >"+value.name+"</a></li>");
          
      });
     
     $("#songList a").click(function(){
-            addSongToQueue($(this).attr("id"));
+        
+        var songName = $(this).html();
+            addSongToQueue($(this).attr("id"), songName);
     });
     
     $("#songList").listview("refresh");
@@ -368,7 +370,7 @@ function loadSongsPerAlbumReturn(albumId, result){
     closeLoading();
 }
 
-function addSongToQueue(songId)
+function addSongToQueue(songId, songName)
 {
     var catId = catInfo.idcatalog;
     var token = checkCatalogConnectToken();
@@ -391,7 +393,7 @@ function addSongToQueue(songId)
                             closeLoading();
                             var msgOps = {OK:true,
                                           dialogTitle:"OK",
-                                          dialogMsg:"Tamos, La canción se agregó a la cola",
+                                          dialogMsg:"Tamos, La canción \""+songName+"\" se agregó a la cola",
                                           backLink:"#songs"
                                          };
                             
@@ -405,7 +407,7 @@ function addSongToQueue(songId)
                                   if(errMsg === "added_max_songs")
                                       msgOps.dialogMsg = "Cumpliste el límite, espera a que toque un tema tuyo y podrás agregar más";
                                   else if(errMsg === "repeated")
-                                      msgOps.dialogMsg ="El tema ya está agregado a la cola"
+                                      msgOps.dialogMsg ="El tema \""+songName+"\" ya está agregado a la cola"
                                   else if(errMsg === "exptoken"){
                                       msgOps.dialogMsg = "El token ha expirado, ingrese el nuevo token para poner más temas";
                                       msgOps.backLink = "#conect2Bar";
@@ -477,7 +479,7 @@ function openGenericDialogMsg(opt){
     $("#dialogBox a").attr("href",backLink);
     $("#dialogBox a").html(backText);
     
-    $.mobile.changePage("#popup");
+    $.mobile.changePage("#popup",{role:"dialog"});
 }
 
 function connect2Catalog(){

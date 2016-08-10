@@ -763,45 +763,25 @@ html, body{
 }
 
 
-.mainContainer{
-   min-width: 90% !important;
-   max-width: 60% !important;
-   z-index: 10;
-   position: absolute;
-   right: 0;
-   left: 0;
-   top: 1% !important;
-   margin: auto !important;
-   opacity: 0.9;
-   border-radius: 3px;
-}
-
-.dialBox{
-   width: 90% !important;
-   z-index: 10;
-   position: absolute;
-   right: 0;
-   left: 0;
-   top: 20% !important;
-   height: 200px !important;
-   margin: auto !important;
-   opacity: 0.9;
-   border-radius: 3px;
-}
 
 body {
     width: 100%;
     font-family: 'trebuchet MS', 'Lucida sans', Arial;
     font-size: 14px;
     color: #444;
-    background: url(../img/fractal-back.gif) no-repeat center fixed !important;
-    background-size: cover;
+    background: url(../img/fractal-back.gif)  fixed !important;
+    background-size: cover !important;
 
 }
 
 [data-role="page"] {
-   opacity: 0.95;
+   /** opacity: 0.95; **/
+   background: rgba(255,255,255,.9) !important;
   
+}
+
+[data-role="dialog"] {
+    background: rgba(255,255,255,.9) !important;
 }
 
 #initLoadImg{

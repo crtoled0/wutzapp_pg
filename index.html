@@ -53,7 +53,7 @@
     <!-- div class="app" -->
        <div data-role="page" id="loadingPage" data-theme="a">
 
-                    <img src="./img/fractal-load.gif" />
+                    <!-- img src="./img/fractal-load.gif" / -->
         </div>
     
     
@@ -68,10 +68,12 @@
                 <form>
                     <input id="filter-bars" data-type="text" placeholder="Type Bar Id" /> 
                 </form>
-                <p>
-                    <a onclick="look4Bar()"        class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye">Search Bar</a>
-                    <a onclick="getLocationsMap()" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-location"> GPS </a>
-                </p>
+                <!-- p -->
+                  <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><a onclick="look4Bar()"        class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye">Search Bar</a></div>
+                    <div class="ui-block-b"><a onclick="getLocationsMap()" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-location"> GPS </a></div>
+                  </fieldset>
+                <!-- /p  -->
                 <ul data-role="listview" data-inset="true" data-filter="false">
                 </ul>
             </div><!-- /content -->

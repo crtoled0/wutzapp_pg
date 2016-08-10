@@ -44,7 +44,7 @@ function wutzLocatorInit(){
         
         
         
-        $('#mapholder').height($(window).height() - (100 + $('[data-role=header]').height() - $('[data-role=footer]').height()));
+        $('#mapholder').height($(window).height() - (130 + $('[data-role=header]').height() - $('[data-role=footer]').height()));
   //  });
 }
 
