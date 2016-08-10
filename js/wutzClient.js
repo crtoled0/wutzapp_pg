@@ -55,6 +55,7 @@ document.addEventListener("deviceready", function(){
    }
    app.receivedEvent('deviceready');
    setUpDefaultEvents();
+   $.mobile.changePage("#findBar");
 }, false);
 
 

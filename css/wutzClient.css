@@ -795,3 +795,12 @@ body {
     font-size: 14px;
     color: #444;
 }
+
+#initLoadImg{
+    background-image: url("../img/fractal-load.gif");
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
