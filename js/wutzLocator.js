@@ -57,10 +57,10 @@ function getLocationsMap() {
             $.mobile.changePage("#locationMapPage");
            // $('#yay').fadeIn('slow');
         } else {
-            $("#dialogBox h2").html("No Disponible");
-            $("#dialogBox .dialogMsg").html("Este navegador no tiene activado GPS ");
+            $("#dialogBox h2").html(WutzTranslator.trans("not_available"));
+            $("#dialogBox .dialogMsg").html(WutzTranslator.trans("gps_not_active"));
             $("#dialogBox a").attr("href","#findBar");
-            $("#dialogBox a").html("Volver");
+            $("#dialogBox a").html(WutzTranslator.trans("back"));
             $.mobile.changePage("#popup");
         }
    // });

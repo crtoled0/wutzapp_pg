@@ -39,7 +39,6 @@ document.addEventListener("deviceready", function(){
         console.log("platform : "+device.platform);
         console.log("uuid : "+device.uuid);
         console.log("phonegap : "+device.phonegap);
-        //3D0AD03B-8B46-431A-BEF5-FF01B96BA990
         guid = device.uuid;
         if(guid === null || guid === undefined || guid === ""){
             guid = generateUUID();
@@ -112,7 +111,7 @@ function look4Bar(){
                            for(var i=0;i<result.length;i++){
                                 var newli = $("<li data-mini=\"true\"><a id=\""+result[i].id+"\"  href=\"#barDetails\" data-transition=\"pop\">-</a></li>");
                                 $("a", newli).css("color","green");
-                                $("a", newli).html(result[i].id+" : Opciones");
+                                $("a", newli).html(result[i].id+" : "+WutzTranslator.trans("options"));
                                 //newli.attr("id",result[i].id);
                                 $("a", newli).click(function(){
                                     loadBarDetails(this.id);
@@ -210,12 +209,12 @@ function loadBarDetailsReturn(barDet){
     
     $("#conect2Bar #bar2Connect").html(catInfo.id);
     
-    $("#barDetails h1").html(catInfo.id + " Options");
-    $("#barDetails h2").html(catInfo.id + " Details:");
+    $("#barDetails h1").html(catInfo.id + " "+WutzTranslator.trans("options")+"");
+    $("#barDetails h2").html(catInfo.id + " "+WutzTranslator.trans("details")+":");
     var detHtml = "";
     detHtml += "Bar:"+catInfo.nombreBar+"<br/>";
     detHtml += "Cto:"+catInfo.desc+"<br/>";
-    detHtml += "Temas al mismo tiempo:"+catInfo.songsAllowed+"<br/>";
+    detHtml += ""+WutzTranslator.trans("songs_same_time")+" :"+catInfo.songsAllowed+"<br/>";
     detHtml += "Tel:"+catInfo.telefono+"<br/>";
     detHtml += "Email:"+catInfo.email+"";
                
@@ -393,7 +392,7 @@ function addSongToQueue(songId, songName)
                             closeLoading();
                             var msgOps = {OK:true,
                                           dialogTitle:"OK",
-                                          dialogMsg:"Tamos, La canción \""+songName+"\" se agregó a la cola",
+                                          dialogMsg:""+WutzTranslator.trans("added_song_msg",{"SONGNAME":songName})+"",
                                           backLink:"#songs"
                                          };
                             
@@ -405,15 +404,15 @@ function addSongToQueue(songId, songName)
                                   msgOps.OK = false;
                                   msgOps.dialogTitle = "NO OK";
                                   if(errMsg === "added_max_songs")
-                                      msgOps.dialogMsg = "Cumpliste el límite, espera a que toque un tema tuyo y podrás agregar más";
+                                      msgOps.dialogMsg = WutzTranslator.trans("on_limit_msg",{"ALLOWED_SONGS":catInfo.songsAllowed});
                                   else if(errMsg === "repeated")
-                                      msgOps.dialogMsg ="El tema \""+songName+"\" ya está agregado a la cola"
+                                      msgOps.dialogMsg =WutzTranslator.trans("already_added",{"SONGNAME":songName});
                                   else if(errMsg === "exptoken"){
-                                      msgOps.dialogMsg = "El token ha expirado, ingrese el nuevo token para poner más temas";
+                                      msgOps.dialogMsg = WutzTranslator.trans("expired_token");
                                       msgOps.backLink = "#conect2Bar";
                                   }
                                   else
-                                       msgOps.dialogMsg = "Falló, intenta de nuevo";
+                                       msgOps.dialogMsg = WutzTranslator.trans("gen_failed_msg");
                                 }
                                 openGenericDialogMsg(msgOps);
                              //   $("#dialogBox a").attr("href","#songs");
@@ -428,9 +427,9 @@ function addSongToQueue(songId, songName)
       else{
           var msgOps = {OK:false,
                         dialogTitle:"NO OK",
-                        dialogMsg:"Necesitas ingresar llave del bar para agregar temas",
+                        dialogMsg: WutzTranslator.trans("need_daily_key"),
                         backLink:"#conect2Bar",
-                        backText:"Ingresar LLave"};
+                        backText: WutzTranslator.trans("type_key")};
                             
             openGenericDialogMsg(msgOps);
       }
@@ -456,9 +455,9 @@ function openGenericDialogMsg(opt){
    // console.log(options);
     var allOK = options.OK!==undefined?options.OK:false;
     var dialogTitle = options.dialogTitle!==undefined?options.dialogTitle:"ok";
-    var dialogMsg = options.dialogMsg!==undefined?options.dialogMsg:"Operacion realizada con exito";
+    var dialogMsg = options.dialogMsg!==undefined?options.dialogMsg:WutzTranslator.trans("succes_gen_msg");
     var backLink = options.backLink!==undefined?options.backLink:"#findBar";
-    var backText = options.backText!==undefined?options.backText:"Volver";    
+    var backText = options.backText!==undefined?options.backText:WutzTranslator.trans("back");    
     var back2Previous = options.back2Previous!==undefined?options.back2Previous:false;
             
     if(back2Previous){
@@ -508,8 +507,8 @@ function connect2Catalog(){
                         }
                         else{
                             openGenericDialogMsg({OK:false,
-                                                  dialogTitle:"No Conectado",
-                                                  dialogMsg:"No se ha podido conectar, revise el token e intente de nuevo",
+                                                  dialogTitle:WutzTranslator.trans("not_connected"),
+                                                  dialogMsg:WutzTranslator.trans("no_connected_msg"),
                                                   backLink:"#conect2Bar"
                                                  });
                         }

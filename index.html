@@ -66,11 +66,11 @@
                     <img src="img/logo.png"/>
                 </div>
                 <form>
-                    <input id="filter-bars" data-type="text" placeholder="Type Bar Id" /> 
+                    <input id="filter-bars" data-type="text" placeholder="Type Bar Id" loc-trans="{'placeholder':'type_bar_id'}" /> 
                 </form>
                 <!-- p -->
                   <fieldset class="ui-grid-a">
-                    <div class="ui-block-a"><a onclick="look4Bar()"        class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye">Search Bar</a></div>
+                    <div class="ui-block-a"><a onclick="look4Bar()"        class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye" loc-trans="{'html':'search_bar'}">Search Bar</a></div>
                     <div class="ui-block-b"><a onclick="getLocationsMap()" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-location"> GPS </a></div>
                   </fieldset>
                 <!-- /p  -->
@@ -84,17 +84,17 @@
                 <h1>Bar <span id="bar2Connect"></span></h1>
             </div><!-- /header -->
             <div role="main" class="ui-content">
-                <p>
-                    Para poder conectarse a un catalogo y agregar canciones a la lista
+                <p loc-trans="{'html':'daily_key_text'}">
+                    Para poder conectarse a un catálogo y agregar canciones a la lista
                     se necesita una llave, la cual es un numero que el locatario puede 
                     entregar con el fin de dar acceso a un cliente a agregar temas a la cola.
                 </p>
                 <form>
-                    <input id="token-input" placeholder="Ingresar LLave del Dia">
+                    <input id="token-input" placeholder="Ingresar LLave del Dia" loc-trans="{'placeholder':'insert_keyday'}">
                 </form>
                 <p>
-                    <a href="#" onclick="connect2Catalog();"  class="ui-btn ui-shadow ui-corner-all ui-btn-b">Conectar</a>
-                    <a href="#barDetails" data-role="button" style="background: red"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Volver</a>
+                    <a href="#" onclick="connect2Catalog();"  class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'connect'}">Conectar</a>
+                    <a href="#barDetails" data-role="button" style="background: red"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back'}">Volver</a>
                 </p>
             </div><!-- /content -->
 
@@ -104,17 +104,17 @@
         <!-- Start of first page: #one -->
         <div data-role="page" id="artists" data-theme="a">
             <div data-role="header">
-                <h1>Artist</h1>
+                <h1 loc-trans="{'html':'artists'}">Artist</h1>
             </div>
             <div role="main" class="ui-content">
-                <p><a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Pick Another Bar</a></p>
+                <p><a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'pick_bar'}">Pick Another Bar</a></p>
                 <form>
-                    <input id="filter-for-artist" data-type="search" placeholder="Type to search...">
+                    <input id="filter-for-artist" data-type="search" placeholder="Type to search..." loc-trans="{'placeholder':'type_2_search'}">
                 </form>
                 <ul id="artistList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-artist">
 
                 </ul>
-                <p><a href="#findBar" data-role="button" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Pick Another Bar</a></p>
+                <p><a href="#findBar" data-role="button" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'pick_bar'}">Pick Another Bar</a></p>
             </div><!-- /content -->
 
         </div><!-- /page one -->
@@ -123,25 +123,26 @@
         <div data-role="page" id="albums" data-theme="a">
 
             <div data-role="header">
-                <h1 id="albumTitle">Album </h1>
+                <h1 id="albumTitle" loc-trans="{'html':'albums'}">Album </h1>
             </div><!-- /header -->
             <div role="main" class="ui-content">
                 <p>
                     <a href="#artists" 
                        data-role="button" 
                        data-direction="reverse" 
-                       class="ui-btn ui-shadow ui-corner-all ui-btn-b">
+                       class="ui-btn ui-shadow ui-corner-all ui-btn-b" 
+                       loc-trans="{'html':'all_artists'}">
                         All Artists
                     </a>
                 </p>
                 <form>
-                    <input id="filter-for-albums" data-type="search" placeholder="Type to search...">
+                    <input id="filter-for-albums" data-type="search" placeholder="Type to search..." loc-trans="{'placeholder':'type_2_search'}">
                 </form>
                 <ul id="albumList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-albums">
 
                 </ul>
 
-                <p><a href="#artists" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to Artists</a></p>
+                <p><a href="#artists" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back_2_artists'}">Back to Artists</a></p>
 
             </div><!-- /content -->
 
@@ -152,18 +153,18 @@
         <div data-role="page" id="songs" data-theme="a" >
 
             <div data-role="header">
-                <h1>Songs</h1>
+                <h1>-</h1>
             </div><!-- /header -->
             <div role="main" class="ui-content">
-                <p><a href="#albums" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to Albums</a></p>            
+                <p><a href="#albums" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back_2_albums'}">Back to Albums</a></p>
                 <form>
-                    <input id="filter-for-songs" data-type="search" placeholder="Type to search...">
+                    <input id="filter-for-songs" data-type="search" placeholder="Type to search..." loc-trans="{'placeholder':'type_2_search'}">
                 </form>
                 <ul id="songList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-songs">
 
                 </ul>
 
-                <p><a href="#albums" data-role="button" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to Albums</a></p>
+                <p><a href="#albums" data-role="button" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back_2_albums'}">Back to Albums</a></p>
 
             </div><!-- /content -->
 
@@ -179,7 +180,7 @@
                 <!-- div id="val"></div -->
                 <div id="mapholder" style="height:100%"></div>
                 <p>
-                    <a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back</a>
+                    <a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back'}">Back</a>
                 </p>
             </div><!-- /content -->
         </div><!-- /page three -->
@@ -195,7 +196,7 @@
             <div id="dialogBox" role="main" class="ui-content">
                 <h2>Popup</h2>
                 <p class="dialogMsg"></p>
-                <p><a  data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Back to Album</a></p>
+                <p><a  data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left" loc-trans="{'html':'back'}">Back to Album</a></p>
             </div><!-- /content -->
 
         </div><!-- /page popup -->
@@ -211,9 +212,9 @@
                 </div>
                 <p class="bar_details"></p>
                 <p>
-                    <a href="#artists" class="viewCatA ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action">Ver Catalogo</a>
-                    <a href="#conect2Bar" class="connectA ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action">Conectar a Bar</a>
-                    <a href="#findBar" data-transition="pop" data-role="button" style="background: red" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Volver</a>
+                    <a href="#artists" class="viewCatA ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action" loc-trans="{'html':'check_catalog'}">Ver Catalogo</a>
+                    <a href="#conect2Bar" class="connectA ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action" loc-trans="{'html':'connect_2_bar'}">Conectar a Bar</a>
+                    <a href="#findBar" data-transition="pop" data-role="button" style="background: red" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back'}">Volver</a>
                 </p>
             </div><!-- /content -->
 
@@ -224,10 +225,13 @@
     <script src="js/jquery.min.js"></script>
     <script src="./jquery.mobile.custom.min.js"></script>
     <script src="js/textSlider.js"></script>
+    <script src="js/translator/WutzTranslator.js"></script>
     <script  src="js/wutzClient.js"></script>
     <script  src="js/wutzLocator.js"></script>
     <script type="text/javascript">
-        app.initialize();
+        WutzTranslator.loadWutzTranslator("es", function(){
+            app.initialize();
+        });
     </script>
 </body>
 
