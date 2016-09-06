@@ -28,5 +28,12 @@
   "type_key":"Ingresar LLave",
   "succes_gen_msg":"Operacion realizada con exito",
   "not_connected":"No Conectado",
-  "no_connected_msg":"No se ha podido conectar, revise el token e intente de nuevo"
+  "no_connected_msg":"No se ha podido conectar, revise el token e intente de nuevo",
+  "ok":"OK",
+  "cancel":"Cancelar",
+  "confirm":"Confirmar",
+  "areSureMsg":"Seguro que quieres salir del bar __BARID__",
+  "continueY":"Si, seguro",
+  "continueN":"Ehmm no",
+  "loading":"Cargando"
 }

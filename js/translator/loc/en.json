@@ -28,5 +28,12 @@
   "type_key":"Type Daily Token",
   "succes_gen_msg":"Operation successfully",
   "not_connected":"Not Connected",
-  "no_connected_msg":"Not able to connect, please check daily token and try again."
+  "no_connected_msg":"Not able to connect, please check daily token and try again.",
+  "ok":"OK",
+  "cancel":"Cancel",
+  "confirm":"Confirm",
+  "areSureMsg":"Sure you want lo leave bar __BARID__",
+  "continueY":"Yes, sure",
+  "continueN":"Nope",
+  "loading":"Loading"
 }

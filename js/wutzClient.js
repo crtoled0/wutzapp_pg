@@ -83,7 +83,7 @@ function setUpDefaultEvents(){
 
 function openLoading(){
      $.mobile.loading( "show", {
-            text: "Loading",
+            text: WutzTranslator.trans("loading"),
             textVisible: true,
             theme: "b",
             textonly: false,
@@ -98,6 +98,7 @@ function closeLoading(){
 function look4Bar(){
     
     var barId = $("#filter-bars").val();
+    $("#songList").html(""); // If you are looking for a new bar then the song list gets refreshed
     openLoading();
         $.ajax({
                     type: 'GET',
@@ -131,38 +132,6 @@ function look4Bar(){
     });
 }
 
-/**
-function pingLocalServer(barId){
-    $.ajax({
-		type: 'POST',
-		dataType: 'json',
-		url: localNetHost+"/Wutz/ping.php",
-		data: "",
-		success: function (result) {
-                    $("#barFoundBox").css("color","green");
-                    $("#barFoundBox").html(barId+" : GO");
-                    $("#findBar ul").show();
-                    $("#barFoundBox").click(function(){
-                        $.mobile.changePage("#artists");
-                        loadArtistList();
-                    });
-		},
-		error: function (xhr, txtStat, errThrown) {
-                    $("#barFoundBox").css("color","red");
-                    $("#barFoundBox").html(barId+" : Not Available");
-                    $("#barFoundBox").click(function(){
-                        $("#dialogBox h2").html("No Disponible");
-                        $("#dialogBox .dialogMsg").html("El catalogo para el bar "+barId+" no está disponible por ahora. O no estás dentro del area del bar");
-                        $("#dialogBox a").attr("href","#findBar");
-                        $("#dialogBox a").html("Volver");
-                        $.mobile.changePage("#popup");
-                    });
-                    $("#findBar ul").show();
-		}
-    });
-}
-**/
-
 function loadBarDetails(barId){
     //barDetails
     openLoading();
@@ -173,6 +142,8 @@ function loadBarDetails(barId){
 		data: "",
 		success: function (result) {
                         closeLoading();
+                        wtzCache.setBarIdInSession(barId);
+                        //window.sessionStorage.setItem("currLoadedBar",barId);
                         loadBarDetailsReturn(result);
 		},
 		error: function (xhr, txtStat, errThrown) {
@@ -188,6 +159,9 @@ var catInfo = null;
 function loadBarDetailsReturn(barDet){
     
     catInfo = barDet;
+    var barId = wtzCache.getBarIdInSession();
+    wtzCache.loadBarCachedInfo(barId, catInfo.idcatalog);
+    
     var settedBarToken = checkCatalogConnectToken();
     //var mwidth = $("body").css("width").replace("px","");
     //var mwidth = window.screen.availWidth;
@@ -242,23 +216,29 @@ function loadArtistList()
 {      
     var catId = catInfo.idcatalog;
     openLoading();
-     $.ajax({
-		type: 'GET',
-		dataType: 'json',
-		url: config.adminHost+"/getArtistList/"+catId,
-		data: "",
-		success: function (result) {
-			loadArtistListReturn(result);
-		},
-		error: function (xhr, txtStat, errThrown) {
-                    closeLoading();
-			console.log(xhr.status+':::'+txtStat+':::'+errThrown);
-		}
-      });
+    var artsList = wtzCache.getArtists();
+    if(artsList === null || artsList === undefined){
+            $.ajax({
+                       type: 'GET',
+                       dataType: 'json',
+                       url: config.adminHost+"/getArtistList/"+catId,
+                       data: "",
+                       success: function (result) {
+                               loadArtistListReturn(result);
+                       },
+                       error: function (xhr, txtStat, errThrown) {
+                           closeLoading();
+                               console.log(xhr.status+':::'+txtStat+':::'+errThrown);
+                       }
+             });
+     }
+     else
+         loadArtistListReturn(artsList);
 }
 
 function loadArtistListReturn(result)
 {
+   wtzCache.addArtists(result);
    $("#artistList").html("");
    
     var html = "";
@@ -291,6 +271,8 @@ function loadAlbumPerArtist(artistId, artName)
     $("#albums h1#albumTitle").textSlider();
     songBreadc = artName;
     openLoading();
+    var albumList = wtzCache.getAlbums(artistId);
+    if(albumList === null || albumList===undefined){
          $.ajax({
 		type: 'GET',
 		dataType: 'json',
@@ -304,10 +286,15 @@ function loadAlbumPerArtist(artistId, artName)
 			console.log(xhr.status+':::'+txtStat+':::'+errThrown);
 		}
       });
+    }
+    else{
+        loadAlbumPerArtistReturn(artistId, albumList);
+    }
 }
 
 function loadAlbumPerArtistReturn(artistId, result)
 {
+    wtzCache.addAlbums(artistId, result);
     $.mobile.changePage("#albums");
     $("#albumList").html("");
    
@@ -319,7 +306,7 @@ function loadAlbumPerArtistReturn(artistId, result)
      });
 
     $("#albumList a").click(function(){
-        songBreadc += "|"+$(this).html();
+        songBreadc += ">"+$(this).html();
         loadSongsPerAlbum($(this).attr("id")); 
     });
     $("#albumList").listview("refresh");
@@ -328,11 +315,12 @@ function loadAlbumPerArtistReturn(artistId, result)
 }
 
 
-function loadSongsPerAlbum(albumId)
-{
+function loadSongsPerAlbum(albumId){
     $("#songs h1").html(songBreadc);
     var catId = catInfo.idcatalog;
     openLoading();
+    var songsList = wtzCache.getSongs(albumId);
+    if(songsList === null || songsList===undefined){
              $.ajax({
 		type: 'GET',
 		dataType: 'json',
@@ -346,9 +334,13 @@ function loadSongsPerAlbum(albumId)
 			console.log(xhr.status+':::'+txtStat+':::'+errThrown);
 		}
       });
+    }
+    else
+        loadSongsPerAlbumReturn(albumId, songsList);
 }
 
 function loadSongsPerAlbumReturn(albumId, result){
+    wtzCache.addSongs(albumId, result);
     $.mobile.changePage("#songs");
     $("#songList").html("");
       
@@ -457,7 +449,7 @@ function openGenericDialogMsg(opt){
     var dialogTitle = options.dialogTitle!==undefined?options.dialogTitle:"ok";
     var dialogMsg = options.dialogMsg!==undefined?options.dialogMsg:WutzTranslator.trans("succes_gen_msg");
     var backLink = options.backLink!==undefined?options.backLink:"#findBar";
-    var backText = options.backText!==undefined?options.backText:WutzTranslator.trans("back");    
+    var backText = options.backText!==undefined?options.backText:WutzTranslator.trans("back");
     var back2Previous = options.back2Previous!==undefined?options.back2Previous:false;
             
     if(back2Previous){
@@ -478,7 +470,42 @@ function openGenericDialogMsg(opt){
     $("#dialogBox a").attr("href",backLink);
     $("#dialogBox a").html(backText);
     
-    $.mobile.changePage("#popup",{role:"dialog"});
+    $.mobile.changePage("#popup",{"role":"dialog", "data-transition":"pop"});
+}
+
+function openGenericConfirm(opt){
+
+    var options = opt!==undefined?opt:{};
+   // console.log(options);
+    var allOK = options.OK!==undefined?options.OK:false;
+    var dialogTitle = options.dialogTitle!==undefined?options.dialogTitle:"ok";
+    var dialogMsg = options.dialogMsg!==undefined?options.dialogMsg:WutzTranslator.trans("succes_gen_msg");
+    var backLink = options.backLink!==undefined?options.backLink:"#artists";
+    var backText = options.backText!==undefined?options.backText:WutzTranslator.trans("cancel");
+    
+    var continueLink = options.continueLink!==undefined?options.continueLink:"#findBar";
+    var continueText = options.continueText!==undefined?options.continueText:WutzTranslator.trans("ok");
+    //var back2Previous = options.back2Previous!==undefined?options.back2Previous:false;
+    
+    
+            
+    $("#confBox .confirmCancel").attr("data-direction","reverse");
+    
+    if(allOK){ 
+         $("#confBox h2").html(dialogTitle);
+         $("#confBox .confirmMsg").html(dialogMsg);
+    }
+    else{
+         $("#confBox h2").html(dialogTitle);
+         $("#confBox .confirmMsg").html(dialogMsg);
+    }
+    $("#confBox .confirmCancel").attr("href",backLink);
+    $("#confBox .confirmCancel").html(backText);
+    
+    $("#confBox .confirmOK").attr("href",continueLink);
+    $("#confBox .confirmOK").html(continueText);
+    
+    $.mobile.changePage("#confirmBox",{"role":"dialog", "data-transition":"pop"});
 }
 
 function connect2Catalog(){
@@ -518,4 +545,16 @@ function connect2Catalog(){
 			console.log(xhr.status+':::'+txtStat+':::'+errThrown);
 		}
       });
+}
+
+function areYouSureLeaveBar(){
+    var barId = wtzCache.getBarIdInSession(); //window.sessionStorage.getItem("currLoadedBar");
+    var msgOps = {OK:true,
+                    dialogTitle:WutzTranslator.trans("confirm"),
+                    dialogMsg: WutzTranslator.trans("areSureMsg",{"BARID":barId}),
+                    continueLink:"#findBar",
+                    continueText:WutzTranslator.trans("continueY"),
+                    backText:WutzTranslator.trans("continueN")
+                 };         
+ openGenericConfirm(msgOps);
 }

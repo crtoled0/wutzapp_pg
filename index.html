@@ -58,9 +58,7 @@
     
     
         <div data-role="page" id="findBar" data-theme="a">
-            <div data-role="header">
-                <h1>Wutz</h1>
-            </div>
+           
             <div role="main" class="ui-content">
                 <div style="text-align: center;">
                     <img src="img/logo.png"/>
@@ -107,7 +105,7 @@
                 <h1 loc-trans="{'html':'artists'}">Artist</h1>
             </div>
             <div role="main" class="ui-content">
-                <p><a href="#findBar" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'pick_bar'}">Pick Another Bar</a></p>
+                <p><a href="#" onclick="areYouSureLeaveBar();" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'pick_bar'}">Pick Another Bar</a></p>
                 <form>
                     <input id="filter-for-artist" data-type="search" placeholder="Type to search..." loc-trans="{'placeholder':'type_2_search'}">
                 </form>
@@ -153,7 +151,7 @@
         <div data-role="page" id="songs" data-theme="a" >
 
             <div data-role="header">
-                <h1>-</h1>
+                <h1 style="width: 100%;margin: 1px;">-</h1>
             </div><!-- /header -->
             <div role="main" class="ui-content">
                 <p><a href="#albums" data-role="button"  data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b" loc-trans="{'html':'back_2_albums'}">Back to Albums</a></p>
@@ -220,11 +218,29 @@
 
         </div>
     <!-- /div -->
+    
+      <!-- Start of third page: #confirmBox -->
+        <div data-role="page" id="confirmBox">
+            <div data-role="header" data-theme="b">
+                <h1>Dialog</h1>
+            </div>
+            <div id="confBox" role="main" class="ui-content">
+                <h2>Popup</h2>
+                <p class="confirmMsg"></p>
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><a data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye confirmCancel" loc-trans="{'html':'cancel'}">Cancel</a></div>
+                    <div class="ui-block-b"><a data-role="button" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-eye confirmOK" loc-trans="{'html':'ok'}"> OK </a></div>
+                </fieldset>
+            </div>
+        </div>
+        <!-- /page confirm box -->
+    
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="./jquery.mobile.custom.min.js"></script>
     <script src="js/textSlider.js"></script>
+    <script src="js/lib/WutzCache.js"></script>
     <script src="js/translator/WutzTranslator.js"></script>
     <script  src="js/wutzClient.js"></script>
     <script  src="js/wutzLocator.js"></script>
