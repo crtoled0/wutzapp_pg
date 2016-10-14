@@ -255,10 +255,16 @@ function loadArtistListReturn(result)
         var artName = $(this).html();
         loadAlbumPerArtist(artId, artName);
     });
-    
-    $("#artistList").listview("refresh");
-    $("#artistList li").textSlider();
-    closeLoading();
+    try{
+        $("#artistList").listview("refresh");
+    }
+    catch(ex){
+        console.log("New List");
+    }
+    finally{
+        $("#artistList li").textSlider();
+        closeLoading();
+    }
 }
 
 
@@ -346,7 +352,15 @@ function loadSongsPerAlbumReturn(albumId, result){
       
      $.each(result,function(i, value)
      {
-         $("#songList").append("<li data-mini=\"true\"><a data-rel=\"dialog\" id=\""+value.songid+"\" >"+value.name+"</a></li>");
+         var songIcon = "";
+         if(value.media_type === "audio")
+             songIcon = "<img src=\""+config.audioIcon+"\" />";
+         else if(value.extension === "tube")
+             songIcon = "<img src=\""+config.youtubeIcon+"\" />";
+         else
+             songIcon = "<img src=\""+config.videoIcon+"\" />";
+             
+         $("#songList").append("<li data-mini=\"true\"><a class=\"songA\" data-rel=\"dialog\" id=\""+value.songid+"\" >"+songIcon+""+value.name+"</a></li>");
          
      });
     

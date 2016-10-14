@@ -801,3 +801,9 @@ body {
     overflow: hidden;
     z-index: 1000000;
 }
+
+.songA{
+    min-height: 0.625em !important; 
+    padding-left: 3.25em !important; 
+}
+     

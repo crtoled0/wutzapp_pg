@@ -3,5 +3,8 @@
     "adminHost":"http://wutznet.com",
     "browserGAPIKey":"AIzaSyCUmViI6PWuNRffHoByiWqcSQ7Xt7MSQMg",
     "androidGAPIKey":"AIzaSyDWb0e33SveVDMVlpJv1kDADQ_9ZH-zE40",
-    "iosGAPIKey":"AIzaSyAbW4YdgW4WJgYvqqSvUuVD1hzKDzyhgZU"
+    "iosGAPIKey":"AIzaSyAbW4YdgW4WJgYvqqSvUuVD1hzKDzyhgZU",
+    "audioIcon":"./img/audio40x40.png",
+    "videoIcon":"./img/video40x40.png",
+    "youtubeIcon":"./img/youtube40x40.png"
 }

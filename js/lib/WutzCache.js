@@ -53,13 +53,15 @@
                    }
                }
                if(barCached.catId === catId){
-                   if(callback != undefined)
+                   if(callback !== undefined)
                         callback(barCached);
                }
                else{
-                   removeBarFromCache(barId);
-                   if(callback != undefined)
+                   removeBarFromCache(barId, barCached.catId, function(){
+                       thisMod._cacheOnMemory[barId] = {"catId":catId};
+                       if(callback !== undefined)
                         callback({newbar:true});
+                   });
                }
             },
             setBarIdInSession : function(barId){
@@ -142,9 +144,15 @@
 	};
 	
         //Private functions 
-        var removeBarFromCache = function(barId){
+        var removeBarFromCache = function(barId, catId, callback){
             localStorage.removeItem(barId);
+            var curBarKeys = localStorage.getItem("currCatKey");
+            delete curBarKeys[catId];
+            localStorage.setItem("currCatKey",curBarKeys);
+            //currCatKey
             delete WutzCacheImpl._cacheOnMemory[barId];
+            if(callback !== undefined)
+                callback();
         };
         
         
