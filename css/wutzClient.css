@@ -768,16 +768,17 @@ body {
     width: 100%;
     font-family: 'trebuchet MS', 'Lucida sans', Arial;
     font-size: 14px;
-    color: #444;
-    background: url(../img/fractal-back.gif)  fixed !important;
+    color: #444; 
+   /**  background: url(../img/fractal-back.gif)  fixed !important; **/
     background-size: cover !important;
-
+    background: #eb01a5;
+    background-image: url("../img/back2.jpg"); /* fallback */
+    background-image: url("../img/back2.jpg"), linear-gradient(#eb01a5, #d13531); /* W3C */
 }
 
 [data-role="page"] {
-   /** opacity: 0.95; **/
-   background: rgba(255,255,255,.9) !important;
-  
+   opacity: 0.90;
+   background: rgba(255,255,255,.6) !important;
 }
 
 [data-role="dialog"] {
