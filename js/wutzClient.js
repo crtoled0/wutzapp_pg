@@ -24,7 +24,7 @@ var catsLoaded;
 
 
 document.addEventListener("deviceready", function(){
-   
+  
    $.getJSON( "json/config.json", function(_config) {
         config = _config;
         wutzLocatorInit();
@@ -163,13 +163,8 @@ function loadBarDetailsReturn(barDet){
     wtzCache.loadBarCachedInfo(barId, catInfo.idcatalog);
     
     var settedBarToken = checkCatalogConnectToken();
-    //var mwidth = $("body").css("width").replace("px","");
-    //var mwidth = window.screen.availWidth;
     var mwidth = $("body").width();
     
-   // console.log(mwidth);
-   // console.log(window.devicePixelRatio);
-    //var mheight = $("#barMapImg").css("height").replace("px","");
      
    // var mwidth = 260;
     var mheight = 100;
@@ -177,8 +172,6 @@ function loadBarDetailsReturn(barDet){
     console.log(barMapUrl);
     $("#barMapImg").empty();
     $("#barMapImg").append("<img src=\""+barMapUrl+"\" />");
-    //$("#barMapImg").html("<img src=\""+barMapUrl+"\" />");
-    //catInfo.connected = false;
     $.mobile.changePage("#barDetails");
     
     $("#conect2Bar #bar2Connect").html(catInfo.id);
@@ -236,16 +229,15 @@ function loadArtistList()
          loadArtistListReturn(artsList);
 }
 
-function loadArtistListReturn(result)
-{
+function loadArtistListReturn(result){
    wtzCache.addArtists(result);
    $("#artistList").html("");
    
     var html = "";
     
-     $.each(result,function(i, value)
-     {
-         $("#artistList").append("<li data-mini=\"true\"><a id=\""+value.idartist+"\"  href=\"#\" data-transition=\"pop\">"+value.name+"</a></li>");
+     $.each(result,function(i, value){
+         var iconUrl = value.lfm_img_url?value.lfm_img_url:"./img/logo64x64.png";
+         $("#artistList").append("<li data-mini=\"true\"><img style=\"z-index:1\" src=\""+iconUrl+"\"/><a id=\""+value.idartist+"\"  href=\"#\" data-transition=\"pop\">"+value.name+"</a></li>");
      });
      
    // $("#artistList").append(html); 
@@ -306,9 +298,9 @@ function loadAlbumPerArtistReturn(artistId, result)
    
     var html = "";
     
-     $.each(result,function(i, value)
-     {
-         $("#albumList").append("<li data-mini=\"true\"><a id=\""+value.idalbum+"\"  href=\"#\">"+value.name+"</a></li>");
+     $.each(result,function(i, value){
+         var iconUrl = value.lfm_img_url?value.lfm_img_url:"./img/logo64x64.png";
+         $("#albumList").append("<li data-mini=\"true\"><img style=\"z-index:1\" src=\""+iconUrl+"\"/><a id=\""+value.idalbum+"\"  href=\"#\">"+value.name+"</a></li>");
      });
 
     $("#albumList a").click(function(){
