@@ -38,7 +38,7 @@
 	    },
             _cacheOnMemory : {},
             _barInSession : "",
-            loadBarCachedInfo : function(barId, catId , callback){
+            loadBarCachedInfo : function(barId, catId, catVer , callback){
                var thisMod = this;
                thisMod._barInSession = barId;
                var barCached = thisMod._cacheOnMemory[barId];
@@ -48,17 +48,17 @@
                        thisMod._cacheOnMemory[barId] = barCached;
                    }
                    else{
-                       thisMod.createNewBar(catId);
+                       thisMod.createNewBar(catId, catVer);
                        barCached = thisMod._cacheOnMemory[barId];
                    }
                }
-               if(barCached.catId === catId){
+               if(barCached.catId === catId && barCached.catVers === catVer){
                    if(callback !== undefined)
                         callback(barCached);
                }
                else{
                    removeBarFromCache(barId, barCached.catId, function(){
-                       thisMod._cacheOnMemory[barId] = {"catId":catId};
+                       thisMod._cacheOnMemory[barId] = {"catId":catId,"catVers":catVer};
                        if(callback !== undefined)
                         callback({newbar:true});
                    });
@@ -72,10 +72,10 @@
                 var thisMod = this;
                 return thisMod._barInSession;
             },
-            createNewBar : function(catId){
+            createNewBar : function(catId,catVer){
                 var thisMod = this;
                 var currBarId = thisMod._barInSession;
-                var barObj = {"catId":catId};
+                var barObj = {"catId":catId,"catVers":catVer};
                // barObj[currBarId] = ;
                 thisMod._cacheOnMemory[currBarId] = barObj;
                 window.localStorage.setItem(currBarId, JSON.stringify(barObj));

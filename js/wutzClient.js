@@ -160,7 +160,8 @@ function loadBarDetailsReturn(barDet){
     
     catInfo = barDet;
     var barId = wtzCache.getBarIdInSession();
-    wtzCache.loadBarCachedInfo(barId, catInfo.idcatalog);
+    wtzCache.loadBarCachedInfo(barId, catInfo.idcatalog, catInfo.catVersion);
+    //wtzCache.loadBarCachedInfo(barId, catInfo.idcatalog, 0);
     
     var settedBarToken = checkCatalogConnectToken();
     var mwidth = $("body").width();
@@ -205,8 +206,7 @@ function loadBarDetailsReturn(barDet){
       //#conect2Bar
 }
 
-function loadArtistList()
-{      
+function loadArtistList(){
     var catId = catInfo.idcatalog;
     openLoading();
     var artsList = wtzCache.getArtists();
