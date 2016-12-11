@@ -771,7 +771,7 @@ body {
     color: #444; 
    /**  background: url(../img/fractal-back.gif)  fixed !important; **/
     background-size: cover !important;
-    background: #eb01a5;
+    background: #000000;
     background-image: url("../img/back2.jpg"); /* fallback */
     background-image: url("../img/back2.jpg"), linear-gradient(#eb01a5, #d13531); /* W3C */
 }
@@ -807,4 +807,5 @@ body {
     min-height: 0.625em !important; 
     padding-left: 3.25em !important; 
 }
-     
+
+.ui-page { -webkit-backface-visibility: hidden; }

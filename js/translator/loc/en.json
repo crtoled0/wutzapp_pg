@@ -15,7 +15,7 @@
   "check_catalog":"View Catalog",
   "connect_2_bar":"Connect to Bar",
   "not_available":"Not Available",
-  "gps_not_active":"This browser doesn't have GPS activated",
+  "gps_not_active":"This device doesn't have GPS activated",
   "options":"Options",
   "details":"Details",
   "songs_same_time":"Songs allowed to queue at the same time",
@@ -35,5 +35,6 @@
   "areSureMsg":"Sure you want lo leave bar __BARID__",
   "continueY":"Yes, sure",
   "continueN":"Nope",
-  "loading":"Loading"
+  "loading":"Loading",
+  "gps_timeout":"GPS Timeout, por favor vuelve a intentarlo en un rato"
 }

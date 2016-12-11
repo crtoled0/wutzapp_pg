@@ -15,7 +15,7 @@
   "check_catalog":"Ver Catalogo",
   "connect_2_bar":"Conectar a Bar",
   "not_available":"No Disponible",
-  "gps_not_active":"Este navegador no tiene activado GPS ",
+  "gps_not_active":"Este dispositivo no tiene activado GPS ",
   "options":"Opciones",
   "details":"Detalles",
   "songs_same_time":"Temas al mismo tiempo",
@@ -35,5 +35,6 @@
   "areSureMsg":"Seguro que quieres salir del bar __BARID__",
   "continueY":"Si, seguro",
   "continueN":"Ehmm no",
-  "loading":"Cargando"
+  "loading":"Cargando",
+  "gps_timeout":"GPS Timeout, please try again in a while"
 }

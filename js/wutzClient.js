@@ -21,7 +21,8 @@ var guid;
 var config;
 var localNetHost;
 var catsLoaded;
-
+var genTransitionOptions = {allowSamePageTransition : true, 
+                           transition: "none"};
 
 document.addEventListener("deviceready", function(){
   
@@ -54,11 +55,21 @@ document.addEventListener("deviceready", function(){
    }
    app.receivedEvent('deviceready');
    setUpDefaultEvents();
-   $.mobile.changePage("#findBar");
+   //$("#findBar").show("slow");
+   $.extend(  $.mobile , {
+          autoInitializePage: false,
+          defaultPageTransition: "none"
+   });
+   $.mobile.changePage($("#findBar"), genTransitionOptions);
+   //$.mobile.changePage("./pages.html#findBar", genTransitionOptions);
 }, false);
 
 
 function setUpDefaultEvents(){
+    $(document).bind("mobileinit", function(){
+        
+    });
+
     
     $("#filter-bars").keypress(function(e) {
         if(e.which == 13) {
@@ -110,7 +121,7 @@ function look4Bar(){
                         $("#findBar ul").html("");
                         if(result.length > 0){
                            for(var i=0;i<result.length;i++){
-                                var newli = $("<li data-mini=\"true\"><a id=\""+result[i].id+"\"  href=\"#barDetails\" data-transition=\"pop\">-</a></li>");
+                                var newli = $("<li data-mini=\"true\"><a id=\""+result[i].id+"\"  >-</a></li>");
                                 $("a", newli).css("color","green");
                                 $("a", newli).html(result[i].id+" : "+WutzTranslator.trans("options"));
                                 //newli.attr("id",result[i].id);
@@ -173,7 +184,7 @@ function loadBarDetailsReturn(barDet){
     console.log(barMapUrl);
     $("#barMapImg").empty();
     $("#barMapImg").append("<img src=\""+barMapUrl+"\" />");
-    $.mobile.changePage("#barDetails");
+    $.mobile.changePage($("#barDetails"), genTransitionOptions);
     
     $("#conect2Bar #bar2Connect").html(catInfo.id);
     
@@ -237,7 +248,7 @@ function loadArtistListReturn(result){
     
      $.each(result,function(i, value){
          var iconUrl = value.lfm_img_url?value.lfm_img_url:"./img/logo64x64.png";
-         $("#artistList").append("<li data-mini=\"true\"><img style=\"z-index:1\" src=\""+iconUrl+"\"/><a id=\""+value.idartist+"\"  href=\"#\" data-transition=\"pop\">"+value.name+"</a></li>");
+         $("#artistList").append("<li data-mini=\"true\"><img style=\"z-index:1\" src=\""+iconUrl+"\"/><a id=\""+value.idartist+"\" >"+value.name+"</a></li>");
      });
      
    // $("#artistList").append(html); 
@@ -251,10 +262,10 @@ function loadArtistListReturn(result){
         $("#artistList").listview("refresh");
     }
     catch(ex){
-        console.log("New List");
+        console.log("New List" + ex);
     }
     finally{
-        $("#artistList li").textSlider();
+       // $("#artistList li").textSlider();
         closeLoading();
     }
 }
@@ -266,7 +277,7 @@ function loadAlbumPerArtist(artistId, artName)
     var catId = catInfo.idcatalog;
     $("#albums h1#albumTitle").html(artName);
     $("#albums h1#albumTitle").css("text-overflow","none");
-    $("#albums h1#albumTitle").textSlider();
+   // $("#albums h1#albumTitle").textSlider();
     songBreadc = artName;
     openLoading();
     var albumList = wtzCache.getAlbums(artistId);
@@ -293,7 +304,7 @@ function loadAlbumPerArtist(artistId, artName)
 function loadAlbumPerArtistReturn(artistId, result)
 {
     wtzCache.addAlbums(artistId, result);
-    $.mobile.changePage("#albums");
+    $.mobile.changePage($("#albums"),genTransitionOptions);
     $("#albumList").html("");
    
     var html = "";
@@ -308,7 +319,7 @@ function loadAlbumPerArtistReturn(artistId, result)
         loadSongsPerAlbum($(this).attr("id")); 
     });
     $("#albumList").listview("refresh");
-    $("#albumList li").textSlider();
+   // $("#albumList li").textSlider();
     closeLoading();
 }
 
@@ -339,7 +350,7 @@ function loadSongsPerAlbum(albumId){
 
 function loadSongsPerAlbumReturn(albumId, result){
     wtzCache.addSongs(albumId, result);
-    $.mobile.changePage("#songs");
+    $.mobile.changePage($("#songs"),genTransitionOptions);
     $("#songList").html("");
       
      $.each(result,function(i, value)
@@ -363,7 +374,7 @@ function loadSongsPerAlbumReturn(albumId, result){
     });
     
     $("#songList").listview("refresh");
-    $("#songList li").textSlider();
+   // $("#songList li").textSlider();
     closeLoading();
 }
 
@@ -476,7 +487,7 @@ function openGenericDialogMsg(opt){
     $("#dialogBox a").attr("href",backLink);
     $("#dialogBox a").html(backText);
     
-    $.mobile.changePage("#popup",{"role":"dialog", "data-transition":"pop"});
+    $.mobile.changePage($("#popup"),{role:"dialog", transition:"none", allowSamePageTransition:true});
 }
 
 function openGenericConfirm(opt){
@@ -511,7 +522,7 @@ function openGenericConfirm(opt){
     $("#confBox .confirmOK").attr("href",continueLink);
     $("#confBox .confirmOK").html(continueText);
     
-    $.mobile.changePage("#confirmBox",{"role":"dialog", "data-transition":"pop"});
+    $.mobile.changePage($("#confirmBox"),{role:"dialog", transition:"none",allowSamePageTransition:true});
 }
 
 function connect2Catalog(){
@@ -536,7 +547,7 @@ function connect2Catalog(){
                             catsLoaded[catInfo.idcatalog] = token;
                             window.localStorage.setItem("currCatKey",JSON.stringify(catsLoaded));
                             loadArtistList();
-                            $.mobile.changePage(goBackPage);
+                            $.mobile.changePage($(goBackPage), genTransitionOptions);
                         }
                         else{
                             openGenericDialogMsg({OK:false,

@@ -48,6 +48,31 @@ function wutzLocatorInit(){
   //  });
 }
 
+function isGPSActive(data){
+    if(!data){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(isGPSActive, isGPSActive, {enableHighAccuracy:false, timeout: 30});
+        }
+    }
+    else{
+        console.log("code : "+data.code);
+        if(data && data.code === 1){
+            console.log("GPS Not Active");
+            var msgOps = {OK:false,
+                          dialogTitle:"Hmmm...",
+                          dialogMsg:WutzTranslator.trans("gps_not_active"),
+                          backLink:"#findBar"
+                         };
+            openGenericDialogMsg(msgOps);
+        }
+        else{
+            getLocationsMap();
+        }
+    }
+    
+}
+
+
 
 function getLocationsMap() {
     
@@ -57,11 +82,12 @@ function getLocationsMap() {
             $.mobile.changePage("#locationMapPage");
            // $('#yay').fadeIn('slow');
         } else {
-            $("#dialogBox h2").html(WutzTranslator.trans("not_available"));
-            $("#dialogBox .dialogMsg").html(WutzTranslator.trans("gps_not_active"));
-            $("#dialogBox a").attr("href","#findBar");
-            $("#dialogBox a").html(WutzTranslator.trans("back"));
-            $.mobile.changePage("#popup");
+           var msgOps = {OK:false,
+                          dialogTitle:"Hmmm...",
+                          dialogMsg:WutzTranslator.trans("gps_timeout"),
+                          backLink:"#findBar"
+                         };
+            openGenericDialogMsg(msgOps);
         }
    // });
 }
@@ -156,7 +182,7 @@ function showError(error) {
             message = "User denied the request for Geolocation."
             break;
         case error.POSITION_UNAVAILABLE:
-            message = "Location information is unavailable."
+            message = WutzTranslator.trans("gps_timeout");
             break;
         case error.TIMEOUT:
             message = "The request to get user location timed out."
@@ -165,10 +191,11 @@ function showError(error) {
             message = "An unknown error occurred."
             break;
             
-        $("#dialogBox h2").html("Error");
-        $("#dialogBox .dialogMsg").html(message);
-        $("#dialogBox a").attr("href","#findBar");
-        $("#dialogBox a").html("Volver");
-        $.mobile.changePage("#popup");
+        var msgOps = {OK:false,
+                          dialogTitle:"Hmmm nop...",
+                          dialogMsg:message,
+                          backLink:"#findBar"
+                         };
+        openGenericDialogMsg(msgOps);
     }
 }
