@@ -108,16 +108,7 @@ function drawBarMarkers(barArr, map){
     var markerBars = new Array();
    
     for(var i=0;i<barArr.length;i++){
-        
-        /**
-        markerBars[i]= new google.maps.Marker({
-                                    position: new google.maps.LatLng(barArr[i].lat, barArr[i].lon),
-                                    map: map,
-                                    title: barArr[i].id,
-                                    icon: imageIcon
-                                });
-          **/                      
-                               
+     
      markerBars[i]= new MarkerWithLabel({
                                     position: new google.maps.LatLng(barArr[i].lat, barArr[i].lon),
                                     map: map,
