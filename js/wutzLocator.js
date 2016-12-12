@@ -42,39 +42,11 @@ function wutzLocatorInit(){
             }
         },100);
         
-        
-        
         $('#mapholder').height($(window).height() - (130 + $('[data-role=header]').height() - $('[data-role=footer]').height()));
   //  });
 }
 
-function isGPSActive(data){
-    if(!data){
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(isGPSActive, isGPSActive, {enableHighAccuracy:false, timeout: 30});
-        }
-    }
-    else{
-        console.log("code : "+data.code);
-        if(data && data.code === 1){
-            console.log("GPS Not Active");
-            var msgOps = {OK:false,
-                          dialogTitle:"Hmmm...",
-                          dialogMsg:WutzTranslator.trans("gps_not_active"),
-                          backLink:"#findBar"
-                         };
-            openGenericDialogMsg(msgOps);
-        }
-        else{
-            getLocationsMap();
-        }
-    }
-    
-}
-
-
-
-function getLocationsMap() {
+function isGPSActive() {
     
  //   $("div:jqmData(role='page'):last").bind('pageinit', function() {
         if (navigator.geolocation) {
@@ -96,8 +68,8 @@ function showPosition(position) {
     var lat = position.coords.latitude;
     var lon = position.coords.longitude;
    // $('#val').html("<b>Latitude:</b> " + lat + "<br><b>Longitude:</b> " + lon);
-        var latlon = new google.maps.LatLng(lat, lon);
-    var mapholder = document.getElementById('mapholder');
+    var latlon = new google.maps.LatLng(lat, lon);
+ //   var mapholder = document.getElementById('mapholder');
     var mapHeig = $("#locationMapPage").css("height");
     mapHeig = mapHeig.replace("px","");
     mapHeig = parseInt(mapHeig);
@@ -113,14 +85,6 @@ function showPosition(position) {
     };    
     
     var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
-   /**
-    var marker = new google.maps.Marker({
-        position: latlon,
-        map: map,
-        title: "You are here!",
-        label: "You"
-    });
-    **/
     
     $.ajax({
                     type: 'GET',
@@ -179,7 +143,7 @@ function showError(error) {
     var message = "";
     switch (error.code) {
         case error.PERMISSION_DENIED:
-            message = "User denied the request for Geolocation."
+            message = WutzTranslator.trans("gps_not_active");
             break;
         case error.POSITION_UNAVAILABLE:
             message = WutzTranslator.trans("gps_timeout");
@@ -190,12 +154,11 @@ function showError(error) {
         case error.UNKNOWN_ERROR:
             message = "An unknown error occurred."
             break;
-            
-        var msgOps = {OK:false,
+    }
+    var msgOps = {OK:false,
                           dialogTitle:"Hmmm nop...",
                           dialogMsg:message,
                           backLink:"#findBar"
                          };
         openGenericDialogMsg(msgOps);
-    }
 }
